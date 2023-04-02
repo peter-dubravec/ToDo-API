@@ -6,20 +6,21 @@ const JwtStrategy = require('passport-jwt').Strategy,
 const opts = {}
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = process.env.JWT_SECRET;
-opts.expireIn
 
 module.exports = (passport) => {
     passport.use(new JwtStrategy(opts, function (jwt_payload, done) {
-        User.findById(jwt_payload._id, function (err, user) {
-            if (err) {
+        User.findById(jwt_payload._id)
+            .then((user) => {
+                if (user) {
+                    return done(null, user);
+                } else {
+                    return done(null, false);
+                    // Or create new account
+                }
+            })
+            .catch((err) => {
                 return done(err, false);
-            }
-            if (user) {
-                return done(null, user);
-            } else {
-                return done(null, false);
-                // Or create new account
-            }
-        });
+            });
     }))
 }
+
