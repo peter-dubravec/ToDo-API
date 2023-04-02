@@ -4,7 +4,9 @@ This is a TODO API built using Express. The API allows users to register, login,
 ## Getting started
 To get started, clone this repository to your local machine, navigate to it and run the following command to install the dependencies:
 
+```
 $ npm install
+```
 
 Next, create a .env file in the root of the project and set the following environment variables:
 * PORT="port_for_the_server" 
