@@ -1,4 +1,3 @@
-
 // Authenticate user
 module.exports = (passport) => {
     return function isAuth(req, res, next) {
@@ -11,7 +10,7 @@ module.exports = (passport) => {
                 req.user = user
                 return next()
             }
-
+            console.log(user)
             return res.status(401).json({ error: "Authorization failed." })
 
         })(req, res, next)

@@ -1,0 +1,483 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Simple ToDo API.",
+        "version": "1.0.0",
+        "title": "ToDo API"
+    },
+    "schemes": [
+        "http"
+    ],
+    "basePath": "/api",
+    "securityDefinitions": {
+        "bearerAuth": {
+            "name": "Authorization",
+            "in": "header",
+            "type": "apiKey",
+            "description": "JWT Authorization header"
+        }
+    },
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ],
+    "paths": {
+        "/register": {
+            "post": {
+                "summary": "Register user",
+                "description": "Register user",
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Register user object",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "username": {
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "type": "string"
+                                },
+                                "passwordConfirmation": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "Description": "User successfully registered.",
+                        "schema": {
+                            "$ref": "#/definitions/LoginRegisterResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Invalid400Response"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized access.",
+                        "schema": {
+                            "$ref": "#/definitions/Invalid401Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "summary": "Login user.",
+                "description": "Login user",
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Login object",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "username": {
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "Description": "User successfully logged in.",
+                        "schema": {
+                            "$ref": "#/definitions/LoginRegisterResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Invalid400Response"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized access.",
+                        "schema": {
+                            "$ref": "#/definitions/Invalid401Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/create-project": {
+            "post": {
+                "summary": "Create project",
+                "description": "Create project",
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Project object",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "title": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfull operation.",
+                        "schema": {
+                            "$ref": "#/definitions/project"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Invalid400Response"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized access.",
+                        "schema": {
+                            "$ref": "#/definitions/Invalid401Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/projects": {
+            "get": {
+                "summary": "Get all projects and tasks",
+                "description": "Get all projects and tasks",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfull operation",
+                        "schema": {
+                            "$ref": "#/definitions/project"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Invalid400Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/add-task/{projectId}": {
+            "post": {
+                "summary": "Add task to project",
+                "description": "Add task to project",
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "projectId",
+                        "description": "Project ID",
+                        "required": true
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Task object",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "title": {
+                                    "type": "string"
+                                },
+                                "text": {
+                                    "type": "string"
+                                },
+                                "flag": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfull operation.",
+                        "schema": {
+                            "$ref": "#/definitions/task"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Invalid400Response"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized access.",
+                        "schema": {
+                            "$ref": "#/definitions/Invalid401Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/share/{projectId}": {
+            "post": {
+                "summary": "Share project",
+                "description": "Share project",
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "projectId",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "allowReserved": true
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "user ID",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "userId": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfull operation.",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "msg": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Invalid400Response"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized access.",
+                        "schema": {
+                            "$ref": "#/definitions/Invalid401Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/change-flag/{projectId}/task/{taskId}": {
+            "post": {
+                "summary": "Change flag",
+                "description": "Change flag on task",
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "projectId",
+                        "description": "Project ID",
+                        "required": true
+                    },
+                    {
+                        "in": "path",
+                        "name": "taskId",
+                        "description": "Task ID",
+                        "required": true
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Flag value",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "flag": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfull operation.",
+                        "schema": {
+                            "$ref": "#/definitions/task"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Invalid400Response"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized access.",
+                        "schema": {
+                            "$ref": "#/definitions/Invalid401Response"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "project": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string"
+                },
+                "participants": {
+                    "type": "array"
+                },
+                "tasks": {
+                    "type": "array"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "task": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                },
+                "flag": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "LoginRegisterResponse": {
+            "type": "object",
+            "properties": {
+                "msg": {
+                    "type": "string"
+                },
+                "token": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
+        "Invalid400Response": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string",
+                    "additionalProperties": {}
+                }
+            }
+        },
+        "Invalid401Response": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

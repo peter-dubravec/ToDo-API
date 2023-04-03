@@ -35,23 +35,21 @@ const projects_get = async (req, res) => {
 }
 
 
-const shareTask_post = [
+const shareProject_post = [
     check('userId', 'Invalid User ID').isMongoId(),
     handleBodyErrs,
     isParticipant,
     async (req, res) => {
         // Id of project
-        const { projectId } = req.params
+        let { projectId } = req.params
         // Id of user
         const { userId } = req.body
-
-
+        
         try {
             const project = await Project.findByIdAndUpdate(projectId, { $addToSet: { participants: userId } })
-            console.log(project)
-            
-            if(project === null) {
-                res.status(404).json({error: "Project not found."})
+
+            if (project === null) {
+                res.status(400).json({ error: "Project not found." })
             }
 
             res.status(200).json({ msg: "User Added!" })
@@ -62,4 +60,4 @@ const shareTask_post = [
     }
 ]
 
-module.exports = { createProject_post, projects_get, shareTask_post }
+module.exports = { createProject_post, projects_get, shareProject_post }

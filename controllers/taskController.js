@@ -12,21 +12,22 @@ const addTask_post = [
     handleBodyErrs,
     isParticipant,
     async (req, res) => {
+        console.log("here")
         const { projectId } = req.params
         const { title, text, flag } = req.body
         try {
             const task = await Task.create({ title, text, flag, createdBy: req.user.id })
-            const updatedProject = await Project.findOneAndUpdate({ _id: projectId }, { $addToSet: { tasks: task.id } }, { new: true })
+            const updatedProject = await Project.findOneAndUpdate({ _id: projectId }, { $addToSet: { tasks: task.id } })
 
-            res.status(200).json(updatedProject)
+            res.status(200).json(task)
 
         } catch (err) {
+            console.log(err)
 
             if (err.code === 11000) {
                 res.status(400).json({ error: "This task already exists." })
                 return
             }
-            console.log(err)
             res.status(400).json({ error: "Invalid query parameters" })
         }
 
