@@ -23,4 +23,4 @@ Now the server is running on port you defined.
 
 You can visit API documentation on route "/api-docs/"
 
-To access authorized routes, you must include a Bearer Token in the authorization header.
+To access authorized routes, you must include a Bearer Token in the request in the form - Bearer <accesstoken>.
